@@ -2,15 +2,9 @@
 
 namespace Pderas\AzureKeyVault;
 
-use AzureOss\FlysystemAzureBlobStorage\AzureBlobStorageAdapter;
-use AzureOss\Storage\Blob\BlobContainerClient;
-use AzureOss\Storage\Blob\BlobServiceClient;
-use Illuminate\Contracts\Container\Container;
-use Illuminate\Filesystem\FilesystemAdapter;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
-use League\Flysystem\Filesystem;
-// use MicrosoftAzure\Storage\Blob\BlobRestProxy;
+use Pderas\AzureKeyVault\Services\AzureClient;
+use Pderas\AzureKeyVault\Services\AzureHasher;
 
 class AzureKeyVaultServiceProvider extends ServiceProvider
 {
@@ -24,8 +18,11 @@ class AzureKeyVaultServiceProvider extends ServiceProvider
             'azure_vault'
         );
 
-        $this->app->singleton('azure-key-vault', function () {
-            return new AzureKeyVault();
+        $this->app->singleton('azure-key-vault', function ($app) {
+            return new AzureKeyVault(
+                $app->make(AzureClient::class),
+                $app->make(AzureHasher::class)
+            );
         });
 
     }
