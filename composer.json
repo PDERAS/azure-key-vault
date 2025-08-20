@@ -1,7 +1,15 @@
 {
     "name": "pderas/azure-key-vault",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "A package to interact with Azure Key Vault",
+    "keywords": [
+        "azure",
+        "key-vault",
+        "vault",
+        "secrets",
+        "laravel"
+    ],
+    "homepage": "https://github.com/PDERAS/azure-key-vault",
     "type": "library",
     "license": "MIT",
     "autoload": {
