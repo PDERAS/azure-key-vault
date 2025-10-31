@@ -6,6 +6,8 @@ enum AzureEndpoint: string {
     case SIGN = 'sign';
     case VERIFY = 'verify';
     case VERSIONS = 'versions';
+    case WRAP = 'wrapkey';
+    case UNWRAP = 'unwrapkey';
     case CURRENT = '';
 
     /**
@@ -14,7 +16,7 @@ enum AzureEndpoint: string {
     public function method(): string
     {
         return match ($this) {
-            self::SIGN, self::VERIFY => 'POST',
+            self::SIGN, self::VERIFY, self::WRAP, self::UNWRAP => 'POST',
             self::VERSIONS, self::CURRENT => 'GET',
             default => 'GET',
         };
