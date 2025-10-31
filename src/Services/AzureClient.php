@@ -2,6 +2,7 @@
 
 namespace Pderas\AzureKeyVault\Services;
 
+use Illuminate\Support\Arr;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -18,17 +19,22 @@ class AzureClient
      * The name of the key in Azure Key Vault.
      */
     protected string $key_name;
+
     /**
      * The API version to use for Azure Key Vault requests.
      */
     protected static string $api_version = '7.4';
 
-    public function __construct(
-        protected AzureTokenProvider $token_provider,
-    )
+    /**
+     * The token provider for obtaining access tokens.
+     */
+    protected AzureTokenProvider $token_provider;
+
+    public function __construct(array $config = [])
     {
-        $this->vault_base_url = config('azure_vault.vault_base_url');
-        $this->key_name = config('azure_vault.key_name');
+        $this->token_provider = new AzureTokenProvider($config);
+        $this->vault_base_url = Arr::get($config, 'vault_base_url', '');
+        $this->key_name = Arr::get($config, 'key_name', '');
     }
 
     /**

@@ -17,6 +17,11 @@
             "Pderas\\AzureKeyVault\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\":"tests/"
+        }
+    },
     "authors": [
         {
             "name": "Brock Roadhouse",
@@ -39,6 +44,15 @@
             "aliases": {
                 "AzureKeyVault": "Pderas\\AzureKeyVault\\Facades\\AzureKeyVaultFacade"
             }
+        }
+    },
+    "require-dev": {
+        "orchestra/testbench": "^10.6",
+        "pestphp/pest": "^4.1"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": false
         }
     }
 }

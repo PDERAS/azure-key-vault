@@ -23,9 +23,9 @@ class AzureTokenProvider
      */
     protected Carbon $token_expiry;
 
-    public function __construct()
+    public function __construct(array $config = [])
     {
-        $this->use_azure_cli = config('azure_vault.use_azure_cli', false);
+        $this->use_azure_cli = Arr::get($config, 'use_azure_cli', false);
     }
 
     /**
