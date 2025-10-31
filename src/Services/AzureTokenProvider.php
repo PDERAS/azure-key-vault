@@ -5,6 +5,7 @@ namespace Pderas\AzureKeyVault\Services;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Process;
+use \Illuminate\Support\Facades\Http;
 
 class AzureTokenProvider
 {
@@ -23,6 +24,11 @@ class AzureTokenProvider
      */
     protected Carbon $token_expiry;
 
+    /**
+     * The API version for Azure Metadata Service.
+     */
+    private static string $api_version = '2018-02-01';
+
     public function __construct(array $config = [])
     {
         $this->use_azure_cli = Arr::get($config, 'use_azure_cli', false);
@@ -40,15 +46,14 @@ class AzureTokenProvider
         if ($this->use_azure_cli) {
             return $this->getTokenViaCli();
         } else {
-            // TODO: Implement Managed Identity
-            throw new \RuntimeException('Managed Identity is not implemented yet. Please set `use_azure_cli` to true in the config.');
+            return $this->getTokenViaManagedIdentity();
         }
     }
 
     /**
      * Get the access token using the Azure CLI.
      */
-    private function getTokenViaCli(): string
+    protected function getTokenViaCli(): string
     {
         $azure_cli_result = Process::run('az account get-access-token --resource https://vault.azure.net');
         $token_output = json_decode($azure_cli_result->output(), true);
@@ -57,5 +62,20 @@ class AzureTokenProvider
         $this->token_expiry = Carbon::parse(Arr::get($token_output, 'expiresOn'));
 
         return $this->token;
+    }
+
+    /**
+     * Get the access token using Managed Identity.
+     */
+    protected function getTokenViaManagedIdentity(): string
+    {
+        $response = Http::withHeaders([
+            'Metadata' => 'true',
+        ])->get('http://169.254.169.254/metadata/identity/oauth2/token', [
+            'api-version' => self::$api_version,
+            'resource'    => 'https://vault.azure.net/',
+        ]);
+
+        return $response->json('access_token', '');
     }
 }
