@@ -1,6 +1,6 @@
 {
     "name": "pderas/azure-key-vault",
-    "version": "0.0.2",
+    "version": "0.1.0",
     "description": "A package to interact with Azure Key Vault",
     "keywords": [
         "azure",
@@ -15,6 +15,11 @@
     "autoload": {
         "psr-4": {
             "Pderas\\AzureKeyVault\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\":"tests/"
         }
     },
     "authors": [
@@ -39,6 +44,15 @@
             "aliases": {
                 "AzureKeyVault": "Pderas\\AzureKeyVault\\Facades\\AzureKeyVaultFacade"
             }
+        }
+    },
+    "require-dev": {
+        "orchestra/testbench": "^10.6",
+        "pestphp/pest": "^4.1"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": false
         }
     }
 }

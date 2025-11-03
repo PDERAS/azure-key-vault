@@ -19,10 +19,12 @@ class AzureKeyVaultServiceProvider extends ServiceProvider
         );
 
         $this->app->singleton('azure-key-vault', function ($app) {
-            return new AzureKeyVault(
-                $app->make(AzureClient::class),
-                $app->make(AzureHasher::class)
-            );
+            $config = $app['config']->get('azure_vault', []);
+
+            $client = new AzureClient($config);
+            $hasher = new AzureHasher();
+
+            return new AzureKeyVault($client, $hasher);
         });
 
     }
