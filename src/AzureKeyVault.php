@@ -21,6 +21,15 @@ class AzureKeyVault
     ) {}
 
     /**
+     * Set the key name to use in the Azure Key Vault
+     */
+    public function key(string $key_name): AzureKeyVault
+    {
+        $this->client->setKeyName($key_name);
+        return $this;
+    }
+
+    /**
      * Sign the data using the Azure Key Vault
      * 
      * @return array{signature: string, key_version: string}

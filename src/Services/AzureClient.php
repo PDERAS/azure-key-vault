@@ -38,6 +38,14 @@ class AzureClient
     }
 
     /**
+     * Set the name of the key in Azure Key Vault.
+     */
+    public function setKeyName(string $key_name): void
+    {
+        $this->key_name = $key_name;
+    }
+
+    /**
      * Make a request to the Azure Key Vault
      */
     public function request(AzureEndpoint $endpoint, array $options = [], ?string $key_version = null): ?array
