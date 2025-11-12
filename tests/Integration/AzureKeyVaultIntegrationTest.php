@@ -61,3 +61,13 @@ it('unwraps data successfully', function () {
 
     expect($unwrapped)->toEqual($plaintext);
 });
+
+it('can sign with a different key', function () {
+    $other_key = env('AZURE_KEY_VAULT_TEST_ALTERNATE_KEY', 'alternate-key-name');
+    $plaintext = Str::random(32);
+
+    $other_keyed_vault = $this->vault->key($other_key);
+    $signed = $other_keyed_vault->sign($plaintext);
+
+    expect($signed)->toHaveKey('signature');
+});
