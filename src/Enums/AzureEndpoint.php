@@ -29,7 +29,6 @@ enum AzureEndpoint: string {
     {
         $url = "{$base_url}/keys/{$key_name}";
 
-        // Verify requires a version
         if (!is_null($version)) {
             $url .= "/{$version}";
         }
