@@ -94,7 +94,7 @@ class AzureKeyVault
             $key_version
         );
 
-        return (bool) Arr::get($response, 'value', false);
+        return Arr::get($response, 'value', false);
     }
 
     /**
