@@ -81,7 +81,7 @@ class AzureKeyVault
      * 
      * @return string|bool The unwrapped key or false on failure
      */
-    public function unwrap(string $wrapped_data): string|bool
+    public function unwrap(string $wrapped_data, string $key_version): string|bool
     {
         $payload = json_encode([
             'alg'   => $this->encryption_algorithm,
@@ -90,7 +90,8 @@ class AzureKeyVault
 
         $response = $this->client->request(
             AzureEndpoint::UNWRAP,
-            ['body' => $payload]
+            ['body' => $payload],
+            $key_version
         );
 
         return (bool) Arr::get($response, 'value', false);
