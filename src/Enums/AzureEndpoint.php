@@ -29,19 +29,10 @@ enum AzureEndpoint: string {
     {
         $url = "{$base_url}/keys/{$key_name}";
 
-        // Verify requires a version
-        if ($this->requiresVersion()) {
+        if (!is_null($version)) {
             $url .= "/{$version}";
         }
         
         return "{$url}/{$this->value}";
-    }
-
-    /**
-     * Check if the endpoint requires a key version.
-     */
-    private function requiresVersion(): bool
-    {
-        return $this === self::VERIFY;
     }
 }
